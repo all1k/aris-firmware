@@ -4,28 +4,31 @@
 
 #include <Arduino.h>
 #include <unity.h>
-#include <SEN0161.h>
+#include <sensor.hpp>
+#include <ph_sensor.hpp>
+
+arislib::Sensor<float>* sensor;
 
 void setUp(void) {
 	pinMode(SENSOR_PIN, OUTPUT);
 	digitalWrite(SENSOR_PIN, LOW);
-	delay(1000);
+	delay(500);
+	sensor = new arislib::AnalogPhSensor(SENSOR_PIN, SENSOR_OFFSET);
+	delay(500);
 }
 
-void tearDown(void) {}
+void tearDown(void) {
+	delete sensor;
+}
 
 void test_voltage_reading(void) {
-	arislib::AnalogPhSensor sensor(SENSOR_PIN, SENSOR_OFFSET);
-	float voltage = sensor.getVoltage();
+	float voltage = sensor->getVoltage();
 	TEST_ASSERT_FLOAT_WITHIN(1.0f, 0.0f, voltage);
-	sensor.~Sensor();
 }
 
 void test_data_reading(void) {
-	arislib::AnalogPhSensor sensor(SENSOR_PIN, SENSOR_OFFSET);
-	float data = sensor.getData();
+	float data = sensor->getData();
 	TEST_ASSERT_FLOAT_WITHIN(1.0f, 0.0f, data);
-	sensor.~Sensor();
 }
 
 void setup() {
@@ -35,5 +38,4 @@ void setup() {
 	UNITY_END();
 }
 
-void loop() {
-}
+void loop() {}

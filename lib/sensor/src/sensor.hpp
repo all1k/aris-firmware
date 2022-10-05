@@ -1,7 +1,7 @@
-#ifndef SENSOR_H
-#define SENSOR_H
+#ifndef SENSOR_HPP
+#define SENSOR_HPP
 
-#ifndef CONFIG_H
+#ifndef CONFIG_HPP
 #define ADC_RESOLUTION 4096
 #define LOGIC_LEVEL 3.3f
 #endif

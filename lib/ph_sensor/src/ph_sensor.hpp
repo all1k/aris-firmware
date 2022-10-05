@@ -1,8 +1,8 @@
-#ifndef SEN0161_H
-#define SEN0161_H
+#ifndef PH_SENSOR_HPP
+#define PH_SENSOR_HPP
 
 #include <Arduino.h>
-#include <Sensor.h>
+#include <sensor.hpp>
 
 namespace arislib {
 

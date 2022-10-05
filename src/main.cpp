@@ -4,7 +4,7 @@
 
 #include <Arduino.h>
 #include <TinyGSM.h>
-#include <SEN0161.h>
+#include <sensor.h>
 
 #include "configuration/conf.h"
 
