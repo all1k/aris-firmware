@@ -1,7 +1,3 @@
-#define TINY_GSM_MODEM_SIM800
-#define TINY_GSM_USE_GPRS true
-#define TINY_GSM_USE_WIFI false
-
 #include "configuration/conf.h"
 
 #include <Arduino.h>

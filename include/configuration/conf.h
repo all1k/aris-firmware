@@ -8,6 +8,14 @@
 #define ADC_RESOLUTION			4096	// 12-bit analog to digital converter resolution
 #define VREF					3.3f	// 3.3V voltage reference
 
+/////////////////////////////////
+// SIM800 MODULE CONFIG MACROS //
+/////////////////////////////////
+
+#define TINY_GSM_MODEM_SIM800			// Set module type
+#define TINY_GSM_USE_GPRS		true	// Set SIM800 to use gprs
+#define TINY_GSM_USE_WIFI		false	// Disable SIM800 Wi-Fi
+
 ////////////////////////////
 // ANALOG pH METER MACROS //
 ////////////////////////////
