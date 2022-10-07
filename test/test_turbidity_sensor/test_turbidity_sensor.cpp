@@ -1,4 +1,3 @@
-#define SENSOR_PIN				A0
 #define UINITY_INCLUDE_FLOAT
 
 #include <Arduino.h>
@@ -9,10 +8,11 @@
 arislib::Sensor<float>* sensor;
 
 void setUp(void) {
-	pinMode(SENSOR_PIN, OUTPUT);
-	digitalWrite(SENSOR_PIN, LOW);
+	pinMode(TURBIDITY_SENSOR_PIN, OUTPUT);
+	digitalWrite(TURBIDITY_SENSOR_PIN, HIGH);
 	delay(500);
-	sensor = new arislib::TurbiditySensor(SENSOR_PIN);
+	sensor = new arislib::TurbiditySensor(TURBIDITY_SENSOR_PIN);
+	sensor->init();
 	delay(500);
 }
 
@@ -25,7 +25,7 @@ void test_voltage_reading(void) {
 	if (voltage < 0.0f) {
 		TEST_FAIL_MESSAGE("-1.0 Voltage returned");
 	}
-	TEST_ASSERT_FLOAT_WITHIN(1.0f, 0.0f, voltage);
+	TEST_ASSERT_FLOAT_WITHIN(1.0f, 3.3f, voltage);
 }
 
 void test_data_reading(void) {

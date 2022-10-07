@@ -1,10 +1,7 @@
 #ifndef SENSOR_HPP
 #define SENSOR_HPP
 
-#ifndef CONFIG_HPP
-#define ADC_RESOLUTION 4096
-#define VREF 3.3f
-#endif
+#include "configuration/conf.h"
 
 #include <Arduino.h>
 #include <cstdint>

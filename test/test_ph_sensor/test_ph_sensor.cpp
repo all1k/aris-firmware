@@ -1,5 +1,3 @@
-#define SENSOR_PIN				A0
-#define SENSOR_OFFSET			0.0f
 #define UINITY_INCLUDE_FLOAT
 
 #include <Arduino.h>
@@ -10,10 +8,11 @@
 arislib::Sensor<float>* sensor;
 
 void setUp(void) {
-	pinMode(SENSOR_PIN, OUTPUT);
-	digitalWrite(SENSOR_PIN, LOW);
+	pinMode(PH_SENSOR_PIN, OUTPUT);
+	digitalWrite(PH_SENSOR_PIN, LOW);
 	delay(500);
-	sensor = new arislib::AnalogPhSensor(SENSOR_PIN, SENSOR_OFFSET);
+	sensor = new arislib::AnalogPhSensor(PH_SENSOR_PIN, PH_SENSOR_OFFSET);
+	sensor->init();
 	delay(500);
 }
 
