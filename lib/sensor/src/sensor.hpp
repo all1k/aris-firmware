@@ -27,9 +27,13 @@ class Sensor {
 			return voltage_;
 		}
 		
-		Type getData(void) {
-			data_ = static_cast<Type>(getVoltage());
-			return data_;
+		virtual Type getData(void) {
+			if (!update()) {
+				return -1.0f;
+			}
+			else {
+				return data_;
+			}
 		}
 };
 
