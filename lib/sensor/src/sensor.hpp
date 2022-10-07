@@ -3,7 +3,7 @@
 
 #ifndef CONFIG_HPP
 #define ADC_RESOLUTION 4096
-#define LOGIC_LEVEL 3.3f
+#define VREF 3.3f
 #endif
 
 #include <Arduino.h>
@@ -23,7 +23,7 @@ class Sensor {
 		virtual bool update(void) = 0;
 
 		float getVoltage(void) {
-			voltage_ = (static_cast<float>(analogRead(pin_)) * LOGIC_LEVEL) / ADC_RESOLUTION;
+			voltage_ = (static_cast<float>(analogRead(pin_)) * VREF) / ADC_RESOLUTION;
 			return voltage_;
 		}
 		

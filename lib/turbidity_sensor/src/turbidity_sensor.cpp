@@ -15,7 +15,7 @@ bool TurbiditySensor::init(void) {
 
 bool TurbiditySensor::update(void) {
 	voltage_ = getVoltage();
-	data_ = (voltage_ * 14.0f) / LOGIC_LEVEL;
+	data_ = (voltage_ * 14.0f) / VREF;
 
 	if ((data_ > 14.0f) || (data_ < 0.0f)) {
 		return false;

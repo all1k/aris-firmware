@@ -17,7 +17,7 @@ bool AnalogPhSensor::init(void) {
 
 bool AnalogPhSensor::update(void) {
 	voltage_ = getVoltage();
-	data_ = ((voltage_ * 14.0f) / LOGIC_LEVEL) + offset_;
+	data_ = ((voltage_ * 14.0f) / VREF) + offset_;
 
 	if ((data_ > 14.0f) || (data_ < 0.0f)) {
 		return false;
