@@ -1,4 +1,4 @@
-#include "configuration/conf.h"
+#include <conf.h>
 
 #include <Arduino.h>
 #include <TinyGSM.h>

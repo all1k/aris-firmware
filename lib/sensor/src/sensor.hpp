@@ -1,7 +1,7 @@
 #ifndef SENSOR_HPP
 #define SENSOR_HPP
 
-#include "configuration/conf.h"
+#include <conf.h>
 
 #include <Arduino.h>
 #include <cstdint>
