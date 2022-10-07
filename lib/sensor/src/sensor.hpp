@@ -5,6 +5,7 @@
 
 #include <Arduino.h>
 #include <cstdint>
+#include <cmath>
 
 namespace arislib {
 
