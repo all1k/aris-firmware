@@ -38,4 +38,10 @@
 #define SATURATED_DO_VOLTAGE	1600	// Calibratied saturated do voltage
 #define CALIBRATION_TEMPERATURE	25		// Temperature while calibration performed
 
+///////////////////////////////
+// TEMPERATURE SENSOR MACROS //
+///////////////////////////////
+
+#define TEMPERATURE_SENSOR_PIN	5		// DS18B20 pin number
+
 #endif
