@@ -21,10 +21,10 @@ bool TemperatureSensor::update(void) {
 		wire_->reset_search();
 		return false;
 	}
-	else if (OneWire::crc8(addr, 7) != addr[7]) {
+	if (OneWire::crc8(addr, 7) != addr[7]) {
 		return false;
 	}
-	else if ((addr[0]!=0x10) && (addr[0]!=0x28)) {
+	if ((addr[0]!=0x10) && (addr[0]!=0x28)) {
 		return false;
 	}
 
