@@ -33,7 +33,7 @@ class Sensor {
 		
 		virtual Type getData(void) {
 			if (!update()) {
-				return -1.0f;
+				return -101.0f;
 			}
 			else {
 				return data_;
