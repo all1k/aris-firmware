@@ -27,7 +27,8 @@
 // TURBIDITY SENSOR MACROS //
 /////////////////////////////
 
-#define TURBIDITY_SENSOR_PIN	A1		// Turbidity sensor pin number
+#define TURBIDITY_SENSOR_PIN	A3		// Turbidity sensor pin number
+#define TURBIDITY_SENSOR_VREF	5.0f	// Turbidity sensor max output voltage
 
 ////////////////////////////////////
 // DISSOLVED OXYGEN SENSOR MACROS //
