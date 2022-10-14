@@ -34,7 +34,7 @@
 // DISSOLVED OXYGEN SENSOR MACROS //
 ////////////////////////////////////
 
-#define DO_SENSOR_PIN			A2		// DO sensor pin number
+#define DO_SENSOR_PIN			A4		// DO sensor pin number
 #define TWO_POINT_CALIBRATION	false	// Enable or disable two point calibration
 #define SATURATED_DO_VOLTAGE	1600	// Calibratied saturated do voltage
 #define CALIBRATION_TEMPERATURE	25		// Temperature while calibration performed
