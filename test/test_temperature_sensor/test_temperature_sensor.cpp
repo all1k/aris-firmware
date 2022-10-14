@@ -1,5 +1,3 @@
-#define UINITY_INCLUDE_FLOAT
-
 #include <Arduino.h>
 #include <unity.h>
 #include <sensor.hpp>
@@ -11,12 +9,10 @@
 arislib::Sensor<float>* sensor;
 
 void setUp(void) {
-	delay(500);
 	sensor = new arislib::TemperatureSensor(TEMPERATURE_SENSOR_PIN);
 	if (!sensor->init()) {
 		TEST_FAIL_MESSAGE("Failed to initialize object");
 	}
-	delay(500);
 }
 
 void tearDown(void) {
