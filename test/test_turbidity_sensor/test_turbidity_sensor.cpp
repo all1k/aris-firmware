@@ -1,23 +1,32 @@
-#define UINITY_INCLUDE_FLOAT
-
 #include <Arduino.h>
 #include <unity.h>
 #include <sensor.hpp>
 #include <turbidity_sensor.hpp>
+#include <vector>
+#include <numeric>
+#include <string>
 
 arislib::Sensor<float>* sensor;
 
 void setUp(void) {
-	pinMode(TURBIDITY_SENSOR_PIN, OUTPUT);
-	digitalWrite(TURBIDITY_SENSOR_PIN, HIGH);
-	delay(500);
 	sensor = new arislib::TurbiditySensor(TURBIDITY_SENSOR_PIN);
-	sensor->init();
-	delay(500);
+	if (!sensor->init()) {
+		TEST_FAIL_MESSAGE("Failed to initialize object");
+	}
 }
 
 void tearDown(void) {
 	delete sensor;
+}
+
+template<typename Type>
+float getAverage(std::vector<Type> const& v) {
+	if (v.empty()) {
+		return 0;
+	}
+	else {
+		return std::accumulate(v.begin(), v.end(), 0.0) / v.size();
+	}
 }
 
 void test_voltage_reading(void) {
@@ -29,11 +38,29 @@ void test_voltage_reading(void) {
 }
 
 void test_data_reading(void) {
-	float data = sensor->getData();
-	if (data < 0.0f) {
-		TEST_FAIL_MESSAGE("-1.0 Data returned");
+	std::uint64_t timestamp = millis();
+	std::uint64_t test_interval = 60000;
+	std::uint16_t adc_value;
+	std::vector<float> data_array, voltage_array;
+	float data, voltage;
+	TEST_MESSAGE("Sampling data");
+	while((millis() - timestamp) < test_interval) {
+		adc_value = sensor->getAdcValue();
+		voltage = (sensor->getVoltage()*4.5f)/3.3f;
+		voltage_array.push_back(voltage);
+		data = sensor->getData();
+		data_array.push_back(data);
+		std::string message_string;
+		message_string.append("D=");
+		message_string.append(std::to_string(data));
+		message_string.append("  V=");
+		message_string.append(std::to_string(voltage));
+		message_string.append("  A=");
+		message_string.append(std::to_string(adc_value));
+		TEST_MESSAGE(message_string.c_str());
+		delay(500);
 	}
-	TEST_ASSERT_FLOAT_WITHIN(1.0f, 0.0f, data);
+	TEST_ASSERT_FLOAT_WITHIN(16.0f, 16.0f, getAverage(data_array));
 }
 
 void setup() {
