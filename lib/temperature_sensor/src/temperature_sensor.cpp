@@ -1,6 +1,6 @@
 #include "temperature_sensor.hpp"
 
-namespace arislib {
+namespace aris {
 
 TemperatureSensor::TemperatureSensor(std::uint8_t pin) {
 	pin_ = pin;

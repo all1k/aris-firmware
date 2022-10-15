@@ -7,7 +7,7 @@
 #include <cstdint>
 #include <cmath>
 
-namespace arislib {
+namespace aris {
 
 template <typename Type>
 class Sensor {

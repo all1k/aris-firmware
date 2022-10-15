@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <sensor.hpp>
 
-namespace arislib {
+namespace aris {
 
 class TurbiditySensor : public Sensor<float> {
 	public:

@@ -1,6 +1,6 @@
 #include "ph_sensor.hpp"
 
-namespace arislib {
+namespace aris {
 
 AnalogPhSensor::AnalogPhSensor(std::uint8_t pin, float offset) 
 	: offset_{offset}

@@ -6,10 +6,10 @@
 #include <numeric>
 #include <string>
 
-arislib::Sensor<float>* sensor;
+aris::Sensor<float>* sensor;
 
 void setUp(void) {
-	sensor = new arislib::TurbiditySensor(TURBIDITY_SENSOR_PIN);
+	sensor = new aris::TurbiditySensor(TURBIDITY_SENSOR_PIN);
 	if (!sensor->init()) {
 		TEST_FAIL_MESSAGE("Failed to initialize object");
 	}

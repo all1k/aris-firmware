@@ -1,6 +1,6 @@
 #include "turbidity_sensor.hpp"
 
-namespace arislib {
+namespace aris {
 
 TurbiditySensor::TurbiditySensor(std::uint8_t pin) {
 	pin_ = pin;

@@ -6,7 +6,7 @@
 #include <OneWire.h>
 #include <sensor.hpp>
 
-namespace arislib {
+namespace aris {
 
 class TemperatureSensor : public Sensor<float> {
 	private:

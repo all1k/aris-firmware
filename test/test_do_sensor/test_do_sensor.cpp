@@ -3,15 +3,15 @@
 #include <Arduino.h>
 #include <unity.h>
 #include <sensor.hpp>
-#include <ph_sensor.hpp>
+#include <do_sensor.hpp>
 
 aris::Sensor<float>* sensor;
 
 void setUp(void) {
-	pinMode(PH_SENSOR_PIN, OUTPUT);
-	digitalWrite(PH_SENSOR_PIN, LOW);
+	pinMode(DO_SENSOR_PIN, OUTPUT);
+	digitalWrite(DO_SENSOR_PIN, LOW);
 	delay(500);
-	sensor = new aris::AnalogPhSensor(PH_SENSOR_PIN, PH_SENSOR_OFFSET);
+	sensor = new aris::DissolvedOxygenSensor(DO_SENSOR_PIN);
 	sensor->init();
 	delay(500);
 }
