@@ -21,7 +21,7 @@ bool DissolvedOxygenSensor::update(void) {
 	if (temp_sensor_ == nullptr) {
 		return false;
 	}
-	std::uint16_t current_voltage_ = (uint16_t)(getVoltage() * 1000.0f);
+	std::uint16_t current_voltage_ = (uint16_t)(getVoltage() * std::pow(10, 3));
 	std::uint16_t current_temp_ = (uint16_t)temp_sensor_->getData();
 	sat_voltage_ = cal_voltage_ + 35 * current_temp_ - cal_temp_ * 35;
 	data_ = (float)(current_voltage_ * g_do_table[current_temp_] / sat_voltage_);
