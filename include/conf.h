@@ -45,4 +45,11 @@
 
 #define TEMPERATURE_SENSOR_PIN	5		// DS18B20 pin number
 
+////////////////////////////////
+// CONDUCTIVITY SENSOR MACROS //
+////////////////////////////////
+
+#define CONDUCTIVITY_SENSOR_PIN A5		// Conductivity sensor pin number
+#define CONDUCTIVITY_SENSOR_K	1.0f	// Default K gain
+
 #endif
