@@ -3,6 +3,7 @@
 namespace aris {
 
 void SensorManager::init(void) : timestamp_(0) {
+	;;
 }
 
 bool SensorManager::run(float frequency) {
