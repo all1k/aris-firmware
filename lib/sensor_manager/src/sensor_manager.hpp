@@ -8,6 +8,7 @@ namespace aris {
 class SensorManager {
 	private:
 		std::map<std::string, std::shared_ptr<Sensor>> sensors_;
+		std::uint64_t timestamp_;
 
 	public:
 		bool run(float frequency);
