@@ -21,7 +21,7 @@ bool ConductivitySensor::update(void) {
 	return true;
 }
 
-void ConductivitySensor::attachTempSensor(std::shared_ptr<Sensor<float>>& ptr) {
+bool ConductivitySensor::attachTempSensor(std::shared_ptr<Sensor<float>>& ptr) {
 	temp_sensor_ = ptr;
 	if (temp_sensor_ != ptr) {
 		return false;
