@@ -8,12 +8,8 @@
 aris::Sensor<float>* sensor;
 
 void setUp(void) {
-	pinMode(PH_SENSOR_PIN, OUTPUT);
-	digitalWrite(PH_SENSOR_PIN, LOW);
-	delay(500);
 	sensor = new aris::AnalogPhSensor(PH_SENSOR_PIN, PH_SENSOR_OFFSET);
 	sensor->init();
-	delay(500);
 }
 
 void tearDown(void) {

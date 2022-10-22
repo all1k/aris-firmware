@@ -8,12 +8,8 @@
 aris::Sensor<float>* sensor;
 
 void setUp(void) {
-	pinMode(DO_SENSOR_PIN, OUTPUT);
-	digitalWrite(DO_SENSOR_PIN, LOW);
-	delay(500);
 	sensor = new aris::DissolvedOxygenSensor(DO_SENSOR_PIN);
 	sensor->init();
-	delay(500);
 }
 
 void tearDown(void) {
