@@ -11,6 +11,7 @@ class SensorManager {
 		std::uint64_t timestamp_;
 
 	public:
+		void init(void);
 		bool run(float frequency);
 		bool spawn(const std::string& name, const std::shared_ptr<Sensor>& ptr);
 		float getData(const std::string& name);
