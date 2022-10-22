@@ -1,3 +1,6 @@
+#ifndef _ARIS_SENSOR_MANAGER_HPP_
+#define _ARIS_SENSOR_MANAGER_HPP_
+
 #include <Arduino.h>
 
 namespace aris {
