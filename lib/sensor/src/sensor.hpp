@@ -31,8 +31,17 @@ class Sensor {
 			return voltage_;
 		}
 		
-		virtual Type getData(void) {
+		bool isUpdated(void) {
 			if (!update()) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+
+		virtual Type getData(void) {
+			if (!isUpdated()) {
 				return -101.0f;
 			}
 			else {
