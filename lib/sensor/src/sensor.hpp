@@ -4,6 +4,7 @@
 #include <conf.h>
 
 #include <Arduino.h>
+#include <memory>
 #include <cstdint>
 #include <cmath>
 
