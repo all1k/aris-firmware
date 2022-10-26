@@ -21,7 +21,7 @@
 ////////////////////////////
 
 #define PH_SENSOR_PIN			A0		// pH sensor pin number
-#define PH_SENSOR_OFFSET		0.00	// pH value offset
+#define PH_SENSOR_OFFSET		2.8		// pH value offset
 
 /////////////////////////////
 // TURBIDITY SENSOR MACROS //
@@ -36,8 +36,8 @@
 
 #define DO_SENSOR_PIN			A4		// DO sensor pin number
 #define TWO_POINT_CALIBRATION	false	// Enable or disable two point calibration
-#define SATURATED_DO_VOLTAGE	1600	// Calibratied saturated do voltage
-#define CALIBRATION_TEMPERATURE	25		// Temperature while calibration performed
+#define SATURATED_DO_VOLTAGE	2000	// Calibratied saturated do voltage
+#define CALIBRATION_TEMPERATURE	28		// Temperature while calibration performed
 
 ///////////////////////////////
 // TEMPERATURE SENSOR MACROS //
@@ -50,6 +50,6 @@
 ////////////////////////////////
 
 #define CONDUCTIVITY_SENSOR_PIN A5		// Conductivity sensor pin number
-#define CONDUCTIVITY_SENSOR_K	1.0f	// Default K gain
+#define CONDUCTIVITY_SENSOR_K	1.25f	// Default K gain
 
 #endif
