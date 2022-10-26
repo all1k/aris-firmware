@@ -2,9 +2,13 @@
 
 namespace aris {
 
-DissolvedOxygenSensor::DissolvedOxygenSensor(std::uint8_t pin) {
+DissolvedOxygenSensor::DissolvedOxygenSensor
+	(std::uint8_t pin, std::shared_ptr<Sensor<float>>& ptr)
+{
 	pin_ = pin;
-	temp_sensor_ = nullptr;
+	if (!attach(ptr)) {
+		;;
+	}
 }
 
 bool DissolvedOxygenSensor::init(void) {
@@ -23,12 +27,14 @@ bool DissolvedOxygenSensor::update(void) {
 	}
 	std::uint16_t current_voltage_ = (uint16_t)(getVoltage() * std::pow(10, 3));
 	std::uint16_t current_temp_ = (uint16_t)temp_sensor_->getData();
+	/* std::uint16_t current_temp_ = (uint16_t)25; */
 	sat_voltage_ = cal_voltage_ + 35 * current_temp_ - cal_temp_ * 35;
 	data_ = (float)(current_voltage_ * g_do_table[current_temp_] / sat_voltage_);
+	data_ /= std::pow(10, 3);
 	return true;
 }
 
-bool DissolvedOxygenSensor::attachTemperatureSensor(std::shared_ptr<Sensor<float>>& ptr) {
+bool DissolvedOxygenSensor::attach(const std::shared_ptr<Sensor<float>>& ptr) {
 	temp_sensor_ = ptr;
 	if (temp_sensor_ == ptr) {
 		return true;

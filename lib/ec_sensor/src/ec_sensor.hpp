@@ -16,10 +16,10 @@ class ConductivitySensor : public Sensor<float> {
 		float data_raw_, kvalue_;
 
 	public:
-		ConductivitySensor(std::uint8_t pin);
+		ConductivitySensor(std::uint8_t pin, std::shared_ptr<Sensor<float>>& ptr);
 		bool init(void);
 		bool update(void);
-		bool attachTempSensor(std::shared_ptr<Sensor<float>>& ptr);
+		bool attach(const std::shared_ptr<Sensor<float>>& ptr);
 };
 
 

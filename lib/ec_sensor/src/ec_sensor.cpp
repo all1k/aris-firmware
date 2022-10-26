@@ -2,8 +2,13 @@
 
 namespace aris {
 
-ConductivitySensor::ConductivitySensor(std::uint8_t pin) {
+ConductivitySensor::ConductivitySensor
+	(std::uint8_t pin, std::shared_ptr<Sensor<float>>& ptr)
+{
 	pin_ = pin;
+	if (!attach(ptr)) {
+		;;
+	}
 }
 
 bool ConductivitySensor::init(void) {
@@ -21,7 +26,7 @@ bool ConductivitySensor::update(void) {
 	return true;
 }
 
-bool ConductivitySensor::attachTempSensor(std::shared_ptr<Sensor<float>>& ptr) {
+bool ConductivitySensor::attach(const std::shared_ptr<Sensor<float>>& ptr) {
 	temp_sensor_ = ptr;
 	if (temp_sensor_ != ptr) {
 		return false;

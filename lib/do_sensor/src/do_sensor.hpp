@@ -25,10 +25,10 @@ class DissolvedOxygenSensor : public Sensor<float> {
 		std::shared_ptr<Sensor> temp_sensor_;
 
 	public:
-		DissolvedOxygenSensor(std::uint8_t pin);
+		DissolvedOxygenSensor(std::uint8_t pin, std::shared_ptr<Sensor<float>>& ptr);
 		bool init(void);
 		bool update(void);
-		bool attachTemperatureSensor(std::shared_ptr<Sensor<float>>& ptr);
+		bool attach(const std::shared_ptr<Sensor<float>>& ptr);
 		void setCalibrationVoltage(std::uint16_t voltage);
 		void setCalibrationTemperature(std::uint16_t temperature);
 };
