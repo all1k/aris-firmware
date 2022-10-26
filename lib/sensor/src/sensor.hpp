@@ -4,7 +4,6 @@
 #include <conf.h>
 
 #include <Arduino.h>
-#include <memory>
 #include <cstdint>
 #include <cmath>
 
@@ -22,24 +21,9 @@ class Sensor {
 		virtual bool init(void) = 0;
 		virtual bool update(void) = 0;
 
-		std::uint16_t getAdcValue(void) {
-			adc_value_ = analogRead(pin_);
-			return adc_value_;
-		}
-
-		float getVoltage(void) {
-			voltage_ = (static_cast<float>(getAdcValue()) * VREF) / ADC_RESOLUTION;
-			return voltage_;
-		}
-		
-		bool isUpdated(void) {
-			if (!update()) {
-				return false;
-			}
-			else {
-				return true;
-			}
-		}
+		std::uint16_t getAdcValue(void);
+		float getVoltage(void);
+		bool isUpdated(void);
 
 		virtual Type getData(void) {
 			if (!isUpdated()) {
