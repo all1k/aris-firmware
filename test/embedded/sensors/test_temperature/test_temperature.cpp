@@ -29,34 +29,47 @@ float getAverage(std::vector<Type> const& v) {
 	}
 }
 
-void test_temperature_reading(void) {
+template<typename Type>
+void checkDataValidity(Type data, Type upper_tresh, Type low_tresh) {
+	if (data < low_tresh) {
+		TEST_FAIL_MESSAGE("Data below lower threshold");
+	}
+	else if (data > upper_tresh) {
+		TEST_FAIL_MESSAGE("Data above upper threshold");
+	}
+}
+
+void test_data_reading(void) {
 	std::uint64_t timestamp = millis();
-	std::uint64_t test_interval = 60000;
+	std::uint64_t test_interval = TEST_READING_INTERVAL;
 	std::vector<float> data_array;
 	float data;
-	TEST_MESSAGE("Sampling data");
+	TEST_MESSAGE("Aquiring data ... ");
 	while((millis() - timestamp) < test_interval) {
 		data = sensor->getData();
 		data_array.push_back(data);
-		std::string data_string = std::to_string(data);
-		TEST_MESSAGE(data_string.c_str());
-		if (data < -55.0f) {
-			TEST_FAIL_MESSAGE("Data below lower threshold");
-			break;
-		}
-		else if (data > 125.0f) {
-			TEST_FAIL_MESSAGE("Data above upper threshold");
-			break;
-		}
-		delay(500);
+		checkDataValidity(data, 125.0f, -55.0f);
+		delay(10);
 	}
-	TEST_ASSERT_FLOAT_WITHIN(16.0f, 26.0f, getAverage(data_array));
+	float data_average = getAverage(data_array);
+	std::string msg;
+	msg.append("Temperature = ");
+	msg.append(std::to_string(data_average));
+	msg.append(" Celcius");
+	if ((data_average < 23.0f) && (data_average > 36.0f)) {
+		TEST_FAIL_MESSAGE(msg.c_str());
+	}
+	else {
+		TEST_PASS_MESSAGE(msg.c_str());
+	}
 }
 
 void setup() {
 	UNITY_BEGIN();
-	RUN_TEST(test_temperature_reading);
+	RUN_TEST(test_data_reading);
 	UNITY_END();
 }
 
-void loop() {}
+void loop() {
+	;;
+}

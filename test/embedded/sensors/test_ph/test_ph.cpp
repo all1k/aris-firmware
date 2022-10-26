@@ -1,35 +1,74 @@
-#define UINITY_INCLUDE_FLOAT
-
 #include <Arduino.h>
 #include <unity.h>
 #include <sensor.hpp>
 #include <ph_sensor.hpp>
+#include <vector>
+#include <numeric>
+#include <string>
 
 aris::Sensor<float>* sensor;
 
 void setUp(void) {
 	sensor = new aris::AnalogPhSensor(PH_SENSOR_PIN, PH_SENSOR_OFFSET);
-	sensor->init();
+	if (!sensor->init()) {
+		TEST_FAIL_MESSAGE("Failed to initialize object");
+	}
 }
 
 void tearDown(void) {
 	delete sensor;
 }
 
+template<typename Type>
+float getAverage(std::vector<Type> const& v) {
+	if (v.empty()) {
+		return 0;
+	}
+	else {
+		return std::accumulate(v.begin(), v.end(), 0.0) / v.size();
+	}
+}
+
+template<typename Type>
+void checkDataValidity(Type data, Type upper_tresh, Type low_tresh) {
+	if (data < low_tresh) {
+		TEST_FAIL_MESSAGE("Data below lower threshold");
+	}
+	else if (data > upper_tresh) {
+		TEST_FAIL_MESSAGE("Data above upper threshold");
+	}
+}
+
 void test_voltage_reading(void) {
 	float voltage = sensor->getVoltage();
 	if (voltage < 0.0f) {
-		TEST_FAIL_MESSAGE("-1.0 Voltage returned");
+		TEST_FAIL_MESSAGE("Negative voltage returned");
 	}
-	TEST_ASSERT_FLOAT_WITHIN(1.0f, 0.0f, voltage);
+	TEST_ASSERT_FLOAT_WITHIN(3.3f, 1.65f, voltage);
 }
 
 void test_data_reading(void) {
-	float data = sensor->getData();
-	if (data < 0.0f) {
-		TEST_FAIL_MESSAGE("-1.0 Data returned");
+	std::uint64_t timestamp = millis();
+	std::uint64_t test_interval = TEST_READING_INTERVAL;
+	std::vector<float> data_array;
+	float data;
+	TEST_MESSAGE("Aquiring data ... ");
+	while((millis() - timestamp) < test_interval) {
+		data = sensor->getData();
+		data_array.push_back(data);
+		checkDataValidity(data, 14.0f, 0.0f);
+		delay(10);
 	}
-	TEST_ASSERT_FLOAT_WITHIN(1.0f, 0.0f, data);
+	float data_average = getAverage(data_array);
+	std::string msg;
+	msg.append("pH = ");
+	msg.append(std::to_string(data_average));
+	if ((data_average < 5.0f) && (data_average > 8.0f)) {
+		TEST_FAIL_MESSAGE(msg.c_str());
+	}
+	else {
+		TEST_PASS_MESSAGE(msg.c_str());
+	}
 }
 
 void setup() {
@@ -39,4 +78,6 @@ void setup() {
 	UNITY_END();
 }
 
-void loop() {}
+void loop() {
+	;;
+}
