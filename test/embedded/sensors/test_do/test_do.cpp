@@ -4,12 +4,23 @@
 #include <unity.h>
 #include <sensor.hpp>
 #include <do_sensor.hpp>
+#include <temperature_sensor.hpp>
+#include <vector>
+#include <numeric>
+#include <string>
 
 aris::Sensor<float>* sensor;
+std::shared_ptr<aris::Sensor<float>> temp_sensor;
 
 void setUp(void) {
-	sensor = new aris::DissolvedOxygenSensor(DO_SENSOR_PIN);
-	sensor->init();
+	temp_sensor.reset(new aris::TemperatureSensor(TEMPERATURE_SENSOR_PIN));
+	if (!temp_sensor->init()) {
+		TEST_FAIL_MESSAGE("Failed to initialize object");
+	}
+	sensor = new aris::DissolvedOxygenSensor(DO_SENSOR_PIN, temp_sensor);
+	if (!sensor->init()) {
+		TEST_FAIL_MESSAGE("Failed to initialize object");
+	}
 }
 
 void tearDown(void) {
