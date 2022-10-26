@@ -15,6 +15,7 @@ bool ConductivitySensor::init(void) {
 	voltage_ = 0.0f;
 	data_ = 0.0f;
 	data_raw_ = 0.0f;
+	kvalue_ = 1.254f;
 	pinMode(pin_, INPUT);
 	return true;
 }
