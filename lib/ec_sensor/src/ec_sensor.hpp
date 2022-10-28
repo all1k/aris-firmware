@@ -14,6 +14,8 @@ class ConductivitySensor : public Sensor {
 
 	public:
 		ConductivitySensor(std::uint8_t pin, std::shared_ptr<Sensor>& ptr);
+		bool init(void) override;
+		bool update(void) override;
 		bool attach(const std::shared_ptr<Sensor>& ptr);
 };
 

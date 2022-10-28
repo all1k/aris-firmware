@@ -7,11 +7,13 @@
 namespace aris {
 
 class TurbiditySensor : public Sensor {
+	private:
+		const float turbidity_vref_ = 5.0f;
 
 	public:
 		TurbiditySensor(std::uint8_t pin);
-		bool init(void);
-		bool update(void);
+		bool init(void) override;
+		bool update(void) override;
 };
 
 }

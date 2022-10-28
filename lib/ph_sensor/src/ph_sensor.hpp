@@ -12,8 +12,8 @@ class AnalogPhSensor : public Sensor {
 
 	public:
 		AnalogPhSensor(std::uint8_t pin, float offset);
-		bool init(void);
-		bool update(void);
+		bool init(void) override;
+		bool update(void) override;
 };
 
 }

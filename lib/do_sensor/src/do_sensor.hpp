@@ -26,6 +26,8 @@ class DissolvedOxygenSensor : public Sensor {
 
 	public:
 		DissolvedOxygenSensor(std::uint8_t pin, std::shared_ptr<Sensor>& ptr);
+		bool init(void) override;
+		bool update(void) override;
 		bool attach(const std::shared_ptr<Sensor>& ptr);
 		void setCalibrationVoltage(std::uint16_t voltage);
 		void setCalibrationTemperature(std::uint16_t temperature);
