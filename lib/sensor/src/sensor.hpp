@@ -10,45 +10,26 @@
 
 namespace aris {
 
-template <typename Type>
-class Sensor {
 	protected:
 		std::uint8_t pin_;
 		std::uint16_t adc_value_;
 		float voltage_;
-		Type data_;
+		float data_;
+		static std::uint16_t adc_res_;
+		static float vref_;
+
+		Sensor(void);
 	
 	public:
 		virtual bool init(void) = 0;
 		virtual bool update(void) = 0;
 
-		std::uint16_t getAdcValue(void) {
-			adc_value_ = analogRead(pin_);
-			return adc_value_;
-		}
+		static void setAdcResolution(std::uint16_t res);
+		static void setVoltageReference(float ref);
 
-		float getVoltage(void) {
-			voltage_ = (static_cast<float>(getAdcValue()) * VREF) / ADC_RESOLUTION;
-			return voltage_;
-		}
-		
-		bool isUpdated(void) {
-			if (!update()) {
-				return false;
-			}
-			else {
-				return true;
-			}
-		}
-
-		virtual Type getData(void) {
-			if (!isUpdated()) {
-				return -101.0f;
-			}
-			else {
-				return data_;
-			}
-		}
+		std::uint16_t getAdcValue(void);
+		float getVoltage(void);
+		float getData(void) override;
 };
 
 }
