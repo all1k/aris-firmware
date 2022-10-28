@@ -8,7 +8,7 @@
 
 namespace aris {
 
-class TemperatureSensor : public Sensor<float> {
+class TemperatureSensor : public Sensor {
 	private:
 		std::unique_ptr<OneWire> wire_;
 

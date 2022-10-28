@@ -16,7 +16,7 @@ const uint16_t g_do_table[41] =
 	7180 , 7070 , 6950 , 6840 , 6730 , 6630 , 6530 , 6410 ,
 };
 
-class DissolvedOxygenSensor : public Sensor<float> {
+class DissolvedOxygenSensor : public Sensor {
 	private:
 		std::uint16_t sat_voltage_;
 		std::uint16_t cal_voltage_;
@@ -25,10 +25,8 @@ class DissolvedOxygenSensor : public Sensor<float> {
 		std::shared_ptr<Sensor> temp_sensor_;
 
 	public:
-		DissolvedOxygenSensor(std::uint8_t pin, std::shared_ptr<Sensor<float>>& ptr);
-		bool init(void);
-		bool update(void);
-		bool attach(const std::shared_ptr<Sensor<float>>& ptr);
+		DissolvedOxygenSensor(std::uint8_t pin, std::shared_ptr<Sensor>& ptr);
+		bool attach(const std::shared_ptr<Sensor>& ptr);
 		void setCalibrationVoltage(std::uint16_t voltage);
 		void setCalibrationTemperature(std::uint16_t temperature);
 };

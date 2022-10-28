@@ -7,16 +7,14 @@
 
 namespace aris {
 
-class ConductivitySensor : public Sensor<float> {
+class ConductivitySensor : public Sensor {
 	private:
-		std::shared_ptr<Sensor<float>> temp_sensor_;
+		std::shared_ptr<Sensor> temp_sensor_;
 		float data_raw_, kvalue_;
 
 	public:
-		ConductivitySensor(std::uint8_t pin, std::shared_ptr<Sensor<float>>& ptr);
-		bool init(void);
-		bool update(void);
-		bool attach(const std::shared_ptr<Sensor<float>>& ptr);
+		ConductivitySensor(std::uint8_t pin, std::shared_ptr<Sensor>& ptr);
+		bool attach(const std::shared_ptr<Sensor>& ptr);
 };
 
 

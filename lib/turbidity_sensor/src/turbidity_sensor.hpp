@@ -6,7 +6,8 @@
 
 namespace aris {
 
-class TurbiditySensor : public Sensor<float> {
+class TurbiditySensor : public Sensor {
+
 	public:
 		TurbiditySensor(std::uint8_t pin);
 		bool init(void);

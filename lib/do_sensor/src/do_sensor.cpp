@@ -3,7 +3,7 @@
 namespace aris {
 
 DissolvedOxygenSensor::DissolvedOxygenSensor
-	(std::uint8_t pin, std::shared_ptr<Sensor<float>>& ptr)
+	(std::uint8_t pin, std::shared_ptr<Sensor>& ptr)
 {
 	pin_ = pin;
 	if (!attach(ptr)) {
@@ -34,7 +34,7 @@ bool DissolvedOxygenSensor::update(void) {
 	return true;
 }
 
-bool DissolvedOxygenSensor::attach(const std::shared_ptr<Sensor<float>>& ptr) {
+bool DissolvedOxygenSensor::attach(const std::shared_ptr<Sensor>& ptr) {
 	temp_sensor_ = ptr;
 	if (temp_sensor_ == ptr) {
 		return true;

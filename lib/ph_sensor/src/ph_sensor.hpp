@@ -6,7 +6,7 @@
 
 namespace aris {
 
-class AnalogPhSensor : public Sensor<float> {
+class AnalogPhSensor : public Sensor {
 	private:
 		float offset_;
 
