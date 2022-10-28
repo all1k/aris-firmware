@@ -1,5 +1,5 @@
-#ifndef TURBIDITY_SENSOR_HPP
-#define TURBIDITY_SENSOR_HPP
+#ifndef _ARIS_TURBIDITY_SENSOR_HPP_
+#define _ARIS_TURBIDITY_SENSOR_HPP_
 
 #include <Arduino.h>
 #include <sensor.hpp>

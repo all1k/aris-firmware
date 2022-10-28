@@ -1,5 +1,5 @@
-#ifndef ARIS_CONFIG_H
-#define ARIS_CONFIG_H
+#ifndef _ARIS_CONFIG_H_
+#define _ARIS_CONFIG_H_
 
 /////////////////////////
 // ESP32 CONFIGURATION //

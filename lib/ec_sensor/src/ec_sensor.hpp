@@ -1,8 +1,5 @@
-#ifndef CONDUCTIVITY_SENSOR_HPP
-#define CONDUCTIVITY_SENSOR_HPP
-
-#define ECRES (7500.0f/0.66f)
-#define ECREF 20.0f
+#ifndef _ARIS_CONDUCTIVITY_SENSOR_HPP_
+#define _ARIS_CONDUCTIVITY_SENSOR_HPP_
 
 #include <memory>
 #include <Arduino.h>

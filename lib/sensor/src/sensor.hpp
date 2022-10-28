@@ -1,5 +1,5 @@
-#ifndef SENSOR_HPP
-#define SENSOR_HPP
+#ifndef _ARIS_SENSOR_HPP_
+#define _ARIS_SENSOR_HPP_
 
 #include <conf.h>
 

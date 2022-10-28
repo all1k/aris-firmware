@@ -1,5 +1,5 @@
-#ifndef PH_SENSOR_HPP
-#define PH_SENSOR_HPP
+#ifndef _ARIS_PH_SENSOR_HPP_
+#define _ARIS_PH_SENSOR_HPP_
 
 #include <Arduino.h>
 #include <sensor.hpp>

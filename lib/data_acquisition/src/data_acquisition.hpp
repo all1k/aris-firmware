@@ -1,5 +1,5 @@
-#ifndef _ARIS_SENSOR_MANAGER_HPP_
-#define _ARIS_SENSOR_MANAGER_HPP_
+#ifndef _ARIS_DATA_ACQUISITION_
+#define _ARIS_DATA_ACQUISITION_
 
 #include <Arduino.h>
 #include <memory>

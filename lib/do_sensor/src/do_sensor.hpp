@@ -1,5 +1,5 @@
-#ifndef DISSOLVED_OXYGEN_SENSOR_HPP
-#define DISSOLVED_OXYGEN_SENSOR_HPP
+#ifndef _ARIS_DISSOLVED_OXYGEN_SENSOR_HPP_
+#define _ARIS_DISSOLVED_OXYGEN_SENSOR_HPP_
 
 #include <Arduino.h>
 #include <sensor.hpp>

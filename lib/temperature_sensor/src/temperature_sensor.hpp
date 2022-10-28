@@ -1,5 +1,5 @@
-#ifndef TEMPERATURE_SENSOR_HPP
-#define TEMPERATURE_SENSOR_HPP
+#ifndef _ARIS_TEMPERATURE_SENSOR_HPP_
+#define _ARIS_TEMPERATURE_SENSOR_HPP_
 
 #include <memory>
 #include <Arduino.h>
