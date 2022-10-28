@@ -1,9 +1,9 @@
 #ifndef _ARIS_TEMPERATURE_SENSOR_HPP_
 #define _ARIS_TEMPERATURE_SENSOR_HPP_
 
-#include <memory>
 #include <Arduino.h>
 #include <OneWire.h>
+#include <memory>
 #include <sensor.hpp>
 
 namespace aris {
