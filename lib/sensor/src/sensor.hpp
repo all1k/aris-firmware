@@ -10,6 +10,13 @@
 
 namespace aris {
 
+class SensorInterface {
+	public:
+		virtual bool update(void) = 0;
+		virtual float getData(void) = 0;
+};
+
+class Sensor : virtual public SensorInterface {
 	protected:
 		std::uint8_t pin_;
 		std::uint16_t adc_value_;

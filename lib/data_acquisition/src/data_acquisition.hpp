@@ -11,14 +11,14 @@ namespace aris {
 
 class DataAcquisitionTask {
 	private:
-		std::shared_ptr<Sensor<float>> sensor_;
+		std::shared_ptr<SensorInterface> sensor_;
 		std::uint64_t timestamp_;
 		float frequency_;
 		bool active_;
 
 	public:
 		DataAcquisitionTask(
-				std::shared_ptr<Sensor<float>> sensor,
+				std::shared_ptr<SensorInterface> sensor,
 				float frequency,
 				bool start_active);
 
@@ -36,7 +36,7 @@ class DataAquisitionManager {
 
 		bool spawn(
 				const std::uint8_t& id,
-				std::shared_ptr<Sensor<float>> ptr,
+				std::shared_ptr<SensorInterface> ptr,
 				float frequency,
 				bool start);
 };

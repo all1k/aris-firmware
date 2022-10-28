@@ -3,7 +3,7 @@
 namespace aris {
 
 DataAcquisitionTask::DataAcquisitionTask(
-		std::shared_ptr<Sensor<float>> sensor,
+		std::shared_ptr<SensorInterface> sensor,
 		float frequency,
 		bool start_active)
 {
@@ -45,7 +45,7 @@ bool DataAquisitionManager::asyncRun(void) {
 
 bool DataAquisitionManager::spawn(
 		const std::uint8_t& id,
-		std::shared_ptr<Sensor<float>> ptr,
+		std::shared_ptr<SensorInterface> ptr,
 		float frequency,
 		bool start)
 {
