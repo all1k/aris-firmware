@@ -11,6 +11,8 @@ class ConductivitySensor : public Sensor {
 	private:
 		std::shared_ptr<Sensor> temp_sensor_;
 		float data_raw_, kvalue_;
+		const float ec_res_ = 7500.0f/0.66f;
+		const float ec_ref_ = 20.0f;
 
 	public:
 		ConductivitySensor(std::uint8_t pin, std::shared_ptr<Sensor>& ptr);
