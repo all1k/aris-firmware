@@ -1,2 +1,8 @@
-# aris
-Automated Riverwater Inspection System
+# Automated Riverwater Inspection System
+TO-DO
+
+## Dependencies
+TO-DO
+
+## Links
+TO-DO
