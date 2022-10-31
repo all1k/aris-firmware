@@ -14,8 +14,8 @@ DissolvedOxygenSensor::DissolvedOxygenSensor
 bool DissolvedOxygenSensor::init(void) {
 	voltage_ = 0.0f;
 	sat_voltage_ = 0;
-	cal_voltage_ = 2000;
-	cal_temp_ = 28;
+	cal_voltage_ = 1720;
+	cal_temp_ = 30;
 	data_ = 0.0f;
 	pinMode(pin_, INPUT);
 	return true;
