@@ -2,6 +2,9 @@
 
 namespace aris {
 
+std::uint16_t Sensor::adc_res_;
+float Sensor::vref_;
+
 Sensor::Sensor(void) {
 	adc_res_ = 4096;
 	vref_    = 3.3f;
