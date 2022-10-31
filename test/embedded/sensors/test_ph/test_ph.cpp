@@ -1,12 +1,15 @@
+#define PH_SENSOR_TEST
+
 #include <Arduino.h>
 #include <unity.h>
 #include <sensor.hpp>
 #include <ph_sensor.hpp>
 #include <vector>
-#include <numeric>
 #include <string>
 
-aris::Sensor<float>* sensor;
+#include "../../../test_utilities.h"
+
+aris::Sensor* sensor;
 
 void setUp(void) {
 	sensor = new aris::AnalogPhSensor(PH_SENSOR_PIN, PH_SENSOR_OFFSET);
@@ -19,56 +22,26 @@ void tearDown(void) {
 	delete sensor;
 }
 
-template<typename Type>
-float getAverage(std::vector<Type> const& v) {
-	if (v.empty()) {
-		return 0;
-	}
-	else {
-		return std::accumulate(v.begin(), v.end(), 0.0) / v.size();
-	}
-}
-
-template<typename Type>
-void checkDataValidity(Type data, Type upper_tresh, Type low_tresh) {
-	if (data < low_tresh) {
-		TEST_FAIL_MESSAGE("Data below lower threshold");
-	}
-	else if (data > upper_tresh) {
-		TEST_FAIL_MESSAGE("Data above upper threshold");
-	}
-}
-
 void test_voltage_reading(void) {
 	float voltage = sensor->getVoltage();
 	if (voltage < 0.0f) {
 		TEST_FAIL_MESSAGE("Negative voltage returned");
 	}
+	aristest::logValue(voltage, "Voltage", "Volt");
 	TEST_ASSERT_FLOAT_WITHIN(3.3f, 1.65f, voltage);
 }
 
 void test_data_reading(void) {
 	std::uint64_t timestamp = millis();
-	std::uint64_t test_interval = TEST_READING_INTERVAL;
 	std::vector<float> data_array;
-	float data;
 	TEST_MESSAGE("Aquiring data ... ");
-	while((millis() - timestamp) < test_interval) {
-		data = sensor->getData();
+	while((millis() - timestamp) < TEST_READING_INTERVAL) {
+		float data = sensor->getData();
 		data_array.push_back(data);
-		checkDataValidity(data, 14.0f, 0.0f);
 		delay(10);
 	}
-	float data_average = getAverage(data_array);
-	std::string msg;
-	msg.append("pH = ");
-	msg.append(std::to_string(data_average));
-	if ((data_average < 5.0f) && (data_average > 8.0f)) {
-		TEST_FAIL_MESSAGE(msg.c_str());
-	}
-	else {
-		TEST_PASS_MESSAGE(msg.c_str());
-	}
+	float data_average = aristest::getAverage(data_array);
+	aristest::checkDataValidity(data_average, 8.0f, 6.0f);
 }
 
 void setup() {
