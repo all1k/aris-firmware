@@ -59,11 +59,11 @@ template<typename Type>
 void checkDataValidity(Type data, Type upper_tresh, Type low_tresh) {
 	if (data < low_tresh) {
 		logValue(data);
-		TEST_FAIL_MESSAGE("Data below lower threshold");
+		TEST_FAIL();
 	}
 	else if (data > upper_tresh) {
 		logValue(data);
-		TEST_FAIL_MESSAGE("Data above upper threshold");
+		TEST_FAIL();
 	}
 	else {
 		logValue(data);
