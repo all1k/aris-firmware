@@ -7,7 +7,9 @@
 
 namespace aris {
 
-const uint16_t g_do_table[41] =
+const std::size_t do_max_temperature = 41;
+
+const std::array<std::uint16_t, do_max_temperature> g_do_table =
 {
 	14460, 14220, 13820, 13090, 12740, 12420, 12110, 11810,
 	11530, 11260, 11010, 10770, 10530, 10300, 10080, 9860 ,
