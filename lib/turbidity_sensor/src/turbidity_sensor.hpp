@@ -14,6 +14,7 @@ class TurbiditySensor : public Sensor {
 		TurbiditySensor(std::uint8_t pin);
 		bool init(void) override;
 		bool update(void) override;
+		void calibrate(void) override;
 };
 
 }

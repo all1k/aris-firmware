@@ -7,13 +7,11 @@
 namespace aris {
 
 class AnalogPhSensor : public Sensor {
-	private:
-		float offset_;
-
 	public:
-		AnalogPhSensor(std::uint8_t pin, float offset);
+		AnalogPhSensor(std::uint8_t pin);
 		bool init(void) override;
 		bool update(void) override;
+		void calibrate(void) override;
 };
 
 }

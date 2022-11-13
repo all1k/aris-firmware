@@ -2,21 +2,18 @@
 
 namespace aris {
 
-DissolvedOxygenSensor::DissolvedOxygenSensor
-	(std::uint8_t pin, std::shared_ptr<Sensor>& ptr)
-{
+DissolvedOxygenSensor::DissolvedOxygenSensor(std::uint8_t pin) {
 	pin_ = pin;
-	if (!attach(ptr)) {
-		;;
-	}
+	this->init();
 }
 
 bool DissolvedOxygenSensor::init(void) {
 	voltage_ = 0.0f;
-	sat_voltage_ = 0;
-	cal_voltage_ = 1720;
-	cal_temp_ = 30;
 	data_ = 0.0f;
+	preferences_.begin("do-sensor", false);
+	cal_voltage_ = preferences_.getFloat("calvoltage", 1720);
+	cal_temp_ = preferences_.getFloat("caltemp", 30);
+	preferences_.end();
 	pinMode(pin_, INPUT);
 	return true;
 }
@@ -25,15 +22,28 @@ bool DissolvedOxygenSensor::update(void) {
 	if (temp_sensor_ == nullptr) {
 		return false;
 	}
-	std::uint16_t current_voltage_ = (uint16_t)(getVoltage() * std::pow(10, 3));
-	std::uint16_t current_temp_ = (uint16_t)temp_sensor_->getData();
-	sat_voltage_ = cal_voltage_ + 35 * current_temp_ - cal_temp_ * 35;
-	data_ = (float)(current_voltage_ * g_do_table.at(current_temp_) / sat_voltage_);
+	this->readAdc();
+	this->readVoltage();
+	std::uint16_t voltage_mv = static_cast<std::uint16_t>(voltage_ * std::pow(10, 3));
+	std::uint16_t current_temp = static_cast<std::uint16_t>(temp_sensor_->getData());
+	std::uint16_t sat_voltage = cal_voltage_ + 35 * current_temp - cal_temp_ * 35;
+	data_ = (float)(voltage_mv * g_do_table.at(current_temp) / sat_voltage);
 	data_ /= std::pow(10, 3);
 	return true;
 }
 
-bool DissolvedOxygenSensor::attach(const std::shared_ptr<Sensor>& ptr) {
+void DissolvedOxygenSensor::calibrate(void) {
+	this->readAdc();
+	this->readVoltage();
+	cal_voltage_ = static_cast<std::uint16_t>(voltage_ * std::pow(10, 3));
+	cal_temp_ = static_cast<std::uint16_t>(temp_sensor_->getData());
+	preferences_.begin("do-sensor", false);
+	preferences_.putFloat("calvoltage", cal_voltage_);
+	preferences_.putFloat("caltemp", cal_temp_);
+	preferences_.end();
+}
+
+bool DissolvedOxygenSensor::attach(std::shared_ptr<Sensor> const& ptr) {
 	temp_sensor_ = ptr;
 	if (temp_sensor_ == ptr) {
 		return true;
@@ -41,14 +51,6 @@ bool DissolvedOxygenSensor::attach(const std::shared_ptr<Sensor>& ptr) {
 	else {
 		return false;
 	}
-}
-
-void DissolvedOxygenSensor::setCalibrationVoltage(std::uint16_t voltage) {
-	cal_voltage_ = voltage;
-}
-
-void DissolvedOxygenSensor::setCalibrationTemperature(std::uint16_t temperature) {
-	cal_temp_ = temperature;
 }
 
 }

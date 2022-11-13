@@ -16,9 +16,12 @@ class TemperatureSensor : public Sensor {
 		TemperatureSensor(std::uint8_t pin);
 		bool init(void) override;
 		bool update(void) override;
+		void calibrate(void) override;
 
-		std::uint16_t getAdcValue(void) = delete;
-		float getVoltage(void) = delete;
+		void readAdc(void) = delete;
+		void readVoltage(void) = delete;
+		std::uint16_t getAdcValue(void) const = delete;
+		float getVoltage(void) const = delete;
 };
 
 

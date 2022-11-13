@@ -2,10 +2,9 @@
 
 namespace aris {
 
-AnalogPhSensor::AnalogPhSensor(std::uint8_t pin, float offset) 
-	: offset_{offset}
-{
+AnalogPhSensor::AnalogPhSensor(std::uint8_t pin) {
 	pin_ = pin;
+	this->init();
 }
 
 bool AnalogPhSensor::init(void) {
@@ -16,7 +15,8 @@ bool AnalogPhSensor::init(void) {
 }
 
 bool AnalogPhSensor::update(void) {
-	voltage_ = getVoltage();
+	this->readAdc();
+	this->readVoltage();
 	data_ = ((voltage_ * 14.0f) / vref_) + offset_;
 	if ((data_ > 14.0f) || (data_ < 0.0f)) {
 		return false;
@@ -24,6 +24,10 @@ bool AnalogPhSensor::update(void) {
 	else {
 		return true;
 	}
+}
+
+void AnalogPhSensor::calibrate(void) {
+	;;
 }
 
 }

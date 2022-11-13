@@ -26,7 +26,7 @@ class DataAcquisitionTask {
 		void halt(bool active);
 };
 
-class DataAquisitionManager {
+class DataAcquisitionManager {
 	private:
 		std::map<std::uint8_t, std::shared_ptr<DataAcquisitionTask>> tasks_;
 

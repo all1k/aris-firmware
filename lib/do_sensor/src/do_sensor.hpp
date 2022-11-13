@@ -2,6 +2,7 @@
 #define _ARIS_DISSOLVED_OXYGEN_SENSOR_HPP_
 
 #include <Arduino.h>
+#include <Preferences.h>
 #include <sensor.hpp>
 #include <memory>
 
@@ -11,28 +12,27 @@ const std::size_t do_max_temperature = 41;
 
 const std::array<std::uint16_t, do_max_temperature> g_do_table =
 {
-	14460, 14220, 13820, 13090, 12740, 12420, 12110, 11810,
-	11530, 11260, 11010, 10770, 10530, 10300, 10080, 9860 ,
-	9660 , 9460 , 9270 , 9080 , 8900 , 8730 , 8570 , 8410 ,
-	8250 , 8110 , 7960 , 7820 , 7690 , 7560 , 7430 , 7300 ,
-	7180 , 7070 , 6950 , 6840 , 6730 , 6630 , 6530 , 6410 ,
+	0x387C, 0x378C, 0x35FC, 0x3322, 0x31C4, 0x3084, 0x2F4E, 0x2E22,
+	0x2D0A, 0x2BFC, 0x2B02, 0x2A12, 0x2922, 0x283C, 0x2760, 0x2684,
+	0x25BC, 0x24F4, 0x2436, 0x2378, 0x22C4, 0x221A, 0x217A, 0x20DA,
+	0x203A, 0x1FAE, 0x1F18, 0x1E8C, 0x1E0A, 0x1D88, 0x1D06, 0x1C84,
+	0x1C0C, 0x1B9E, 0x1B26, 0x1AB8, 0x1A4A, 0x19E6, 0x1982, 0x190A,
 };
 
 class DissolvedOxygenSensor : public Sensor {
 	private:
-		std::uint16_t sat_voltage_;
 		std::uint16_t cal_voltage_;
 		std::uint16_t cal_temp_;
 
 		std::shared_ptr<Sensor> temp_sensor_;
+		Preferences preferences_;
 
 	public:
-		DissolvedOxygenSensor(std::uint8_t pin, std::shared_ptr<Sensor>& ptr);
+		DissolvedOxygenSensor(std::uint8_t pin);
 		bool init(void) override;
 		bool update(void) override;
-		bool attach(const std::shared_ptr<Sensor>& ptr);
-		void setCalibrationVoltage(std::uint16_t voltage);
-		void setCalibrationTemperature(std::uint16_t temperature);
+		void calibrate(void) override;
+		bool attach(std::shared_ptr<Sensor> const& ptr) override;
 };
 
 }

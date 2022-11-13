@@ -4,14 +4,12 @@ namespace aris {
 
 TemperatureSensor::TemperatureSensor(std::uint8_t pin) {
 	pin_ = pin;
+	this->init();
 }
 
 bool TemperatureSensor::init(void) {
-	voltage_ = 0.0f;
 	data_ = 0.0f;
-
 	wire_.reset(new OneWire(pin_));
-
 	return true;
 }
 
@@ -48,6 +46,10 @@ bool TemperatureSensor::update(void) {
 	data_ = temp_read / 16;
 
 	return true;
+}
+
+void TemperatureSensor::calibrate(void) {
+	;;
 }
 
 }

@@ -31,11 +31,11 @@ void DataAcquisitionTask::halt(bool active) {
 	active_ = active;
 }
 
-void DataAquisitionManager::init(void) {
+void DataAcquisitionManager::init(void) {
 	;;
 }
 
-bool DataAquisitionManager::asyncRun(void) {
+bool DataAcquisitionManager::asyncRun(void) {
 	for (const auto& it : tasks_) {
 		auto& task_ptr = it.second;
 		task_ptr->run();
@@ -43,7 +43,7 @@ bool DataAquisitionManager::asyncRun(void) {
 	return true;
 }
 
-bool DataAquisitionManager::spawn(
+bool DataAcquisitionManager::spawn(
 		const std::uint8_t& id,
 		std::shared_ptr<SensorInterface> ptr,
 		float frequency,
