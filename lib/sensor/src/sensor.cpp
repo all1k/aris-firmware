@@ -18,23 +18,33 @@ void Sensor::setVoltageReference(float ref) {
 	vref_ = ref;
 }
 
-std::uint16_t Sensor::getAdcValue(void) {
+bool Sensor::attach(std::shared_ptr<Sensor> const& ptr) {
+	;;
+}
+
+void Sensor::readAdc(void) {
 	adc_value_ = analogRead(pin_);
+}
+
+void Sensor::readVoltage(void) {
+	float adc_ratio = static_cast<float>(adc_value_)/static_cast<float>(adc_res_);
+	voltage_ = vref_ * adc_ratio;
+}
+
+void Sensor::setOffset(float offset) {
+	offset_ = offset;
+}
+
+std::uint16_t Sensor::getAdcValue(void) const {
 	return adc_value_;
 }
 
-float Sensor::getVoltage(void) {
-	voltage_ = (static_cast<float>(getAdcValue())*vref_) / adc_res_;
+float Sensor::getVoltage(void) const {
 	return voltage_;
 }
 
-float Sensor::getData(void) {
-	if (!update()) {
-		return -101.0f;
-	}
-	else {
-		return data_;
-	}
+float Sensor::getData(void) const {
+	return data_;
 }
 
 }

@@ -13,7 +13,7 @@ namespace aris {
 class SensorInterface {
 	public:
 		virtual bool update(void) = 0;
-		virtual float getData(void) = 0;
+		virtual float getData(void) const = 0;
 };
 
 class Sensor : virtual public SensorInterface {
@@ -22,21 +22,29 @@ class Sensor : virtual public SensorInterface {
 		std::uint16_t adc_value_;
 		float voltage_;
 		float data_;
+		float offset_;
 		static std::uint16_t adc_res_;
 		static float vref_;
 
 		Sensor(void);
 	
 	public:
-		virtual bool init(void) = 0;
-		virtual bool update(void) = 0;
-
 		static void setAdcResolution(std::uint16_t res);
 		static void setVoltageReference(float ref);
 
-		std::uint16_t getAdcValue(void);
-		float getVoltage(void);
-		float getData(void) override;
+		virtual bool init(void) = 0;
+		virtual bool update(void) = 0;
+		virtual void calibrate(void) = 0;
+		virtual bool attach(std::shared_ptr<Sensor> const& ptr);
+
+		void readAdc(void);
+		void readVoltage(void);
+
+		void setOffset(float offset);
+
+		std::uint16_t getAdcValue(void) const;
+		float getVoltage(void) const;
+		float getData(void) const override;
 };
 
 }
