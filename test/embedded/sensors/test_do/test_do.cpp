@@ -29,6 +29,7 @@ void tearDown(void) {
 }
 
 void test_voltage_reading(void) {
+	sensor->update();
 	float voltage = sensor->getVoltage();
 	if (voltage < 0.0f) {
 		TEST_FAIL_MESSAGE("Negative voltage returned");
@@ -42,6 +43,9 @@ void test_data_reading(void) {
 	std::vector<float> data_array;
 	TEST_MESSAGE("Aquiring data ... ");
 	while((millis() - timestamp) < TEST_READING_INTERVAL) {
+		if (!sensor->update()) {
+			TEST_FAIL_MESSAGE("Failed to update data");
+		}
 		float data = sensor->getData();
 		data_array.push_back(data);
 		delay(10);

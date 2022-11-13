@@ -29,6 +29,7 @@ void tearDown(void) {
 }
 
 void test_voltage_reading(void) {
+	sensor->update();
 	float voltage = sensor->getVoltage();
 	if (voltage < 0.0f) {
 		TEST_FAIL_MESSAGE("Negative voltage returned");
@@ -42,12 +43,13 @@ void test_data_reading(void) {
 	std::vector<float> data_array;
 	TEST_MESSAGE("Aquiring data ... ");
 	while((millis() - timestamp) < TEST_READING_INTERVAL) {
+		sensor->update();
 		float data = sensor->getData();
 		data_array.push_back(data);
 		delay(10);
 	}
 	float data_average = aristest::getAverage(data_array);
-	aristest::checkDataValidity(data_average, 100.0f, 10.0f);
+	aristest::checkDataValidity(data_average, 100.0f, 0.0f);
 }
 
 void setup() {
