@@ -1,3 +1,4 @@
 .pio
 *.swp
 *.vim
+incluce/auth.h
