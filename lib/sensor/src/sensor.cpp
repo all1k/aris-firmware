@@ -31,8 +31,16 @@ void Sensor::readVoltage(void) {
 	voltage_ = vref_ * adc_ratio;
 }
 
+void Sensor::setLabel(std::string label) {
+	label_ = label;
+}
+
 void Sensor::setOffset(float offset) {
 	offset_ = offset;
+}
+
+std::string Sensor::getLabel(void) const {
+	return label_;
 }
 
 std::uint16_t Sensor::getAdcValue(void) const {

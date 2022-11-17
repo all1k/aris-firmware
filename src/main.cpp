@@ -1,7 +1,10 @@
 #include <conf.h>
+#include <auth.h>
 
 #include <Arduino.h>
 #include <TinyGSM.h>
+#include <WiFi.h>
+#include <PubSubClient.h>
 
 #include <memory>
 #include <vector>
@@ -32,10 +35,39 @@ aris::DataAcquisitionManager acquisition_manager;
 SensorPointerVector sensor_pointers;
 SensorInterfaceVector sensor_interfaces;
 
+const std::string ssid = WIFI_SSID;
+const std::string pass = WIFI_PASS;
+const std::string mqtt_server_ip = MQTT_BROKER_IP;
+
+WiFiClient wifi_client;
+PubSubClient mqtt_client(wifi_client);
+unsigned long publish_timestamp = 0ul;
+unsigned long publish_interval  = 100ul;
+
 template<class Type>
 SensorPointer createSensorInstance(std::uint8_t pin) {
 	SensorPointer ptr = std::make_shared<Type>(pin);
 	return ptr;
+}
+
+void setup_wifi() {
+	delay(10);
+	WiFi.begin(ssid.c_str(), pass.c_str());
+	while (WiFi.status() != WL_CONNECTED) {
+		delay(500);
+	}
+}
+
+void callback(char* topic, byte* message, std::uint32_t length) {
+	;;
+}
+
+void reconnectToMqttBroker() {
+	while (!mqtt_client.connected()) {
+		if (!mqtt_client.connect("ESP32Client")) {
+			delay(5000);
+		}
+	}
 }
 
 void setup() {
@@ -46,6 +78,12 @@ void setup() {
 	sensor_pointers.push_back(createSensorInstance<AnalogPhSensor>(SEN0161_PIN));
 	sensor_pointers.push_back(createSensorInstance<ConductivitySensor>(DFR0300_PIN));
 	sensor_pointers.push_back(createSensorInstance<DissolvedOxygenSensor>(SEN0237_PIN));
+
+	sensor_pointers.at(DS18B20_ID)->setLabel("temperature");
+	sensor_pointers.at(SEN0189_ID)->setLabel("turbidity");
+	sensor_pointers.at(SEN0161_ID)->setLabel("ph");
+	sensor_pointers.at(DFR0300_ID)->setLabel("conductivity");
+	sensor_pointers.at(SEN0237_ID)->setLabel("do");
 
 	(*sensor_pointers.at(SEN0161_ID)).setOffset(SEN0161_OFFSET);
 
@@ -61,17 +99,32 @@ void setup() {
 	for (std::size_t i = 0; i < sensor_pointers.size(); i++) {
 		sensor_interfaces.push_back(sensor_pointers.at(i));
 	}
+
+	setup_wifi();
+	mqtt_client.setServer(mqtt_server_ip.c_str(), MQTT_BROKER_PORT);
+	mqtt_client.setCallback(callback);
 }
 
 void loop() {
-	acquisition_manager.asyncRun();
-
-	std::string log_msg;
-
-	for (auto const& it : sensor_interfaces) {
-		log_msg.append(std::to_string(it->getData()));
-		log_msg.append("\t");
+	if (!mqtt_client.connected()) {
+		reconnectToMqttBroker();
 	}
 
-	Serial.println(log_msg.c_str());
+	mqtt_client.loop();
+	acquisition_manager.asyncRun();
+
+	if ((millis() - publish_timestamp) > publish_interval) {
+		std::string log_msg;
+		for (auto const& it : sensor_interfaces) {
+			std::string topic_label = "esp32/";
+			std::string msg;
+			topic_label.append(it->getLabel());
+			msg.append(std::to_string(it->getData()));
+			mqtt_client.publish(topic_label.c_str(), msg.c_str());
+			log_msg.append(std::to_string(it->getData()));
+			log_msg.append("\t");
+		}
+		publish_timestamp = millis();
+		Serial.println(log_msg.c_str());
+	}
 }

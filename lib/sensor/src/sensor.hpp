@@ -14,10 +14,12 @@ class SensorInterface {
 	public:
 		virtual bool update(void) = 0;
 		virtual float getData(void) const = 0;
+		virtual std::string getLabel(void) const = 0;
 };
 
 class Sensor : virtual public SensorInterface {
 	protected:
+		std::string label_;
 		std::uint8_t pin_;
 		std::uint16_t adc_value_;
 		float voltage_;
@@ -40,8 +42,10 @@ class Sensor : virtual public SensorInterface {
 		void readAdc(void);
 		void readVoltage(void);
 
+		void setLabel(std::string label);
 		void setOffset(float offset);
 
+		std::string getLabel(void) const;
 		std::uint16_t getAdcValue(void) const;
 		float getVoltage(void) const;
 		float getData(void) const override;
