@@ -36,7 +36,7 @@ SensorPointerVector sensor_pointers;
 SensorInterfaceVector sensor_interfaces;
 
 const std::string ssid = WIFI_SSID;
-const std::string pass = WIFI_PASS;
+const std::string pass = WIFI_PASSWORD;
 const std::string mqtt_server_ip = MQTT_BROKER_IP;
 
 WiFiClient wifi_client;
