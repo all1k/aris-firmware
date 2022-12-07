@@ -1,9 +1,15 @@
+#define SerialAT Serial2
+#define GSM_AUTOBAUD_MIN 9600
+#define GSM_AUTOBAUD_MAX 115200
+#define GSM_PIN ""
+
 #include <conf.h>
 #include <auth.h>
 
 #include <Arduino.h>
 #include <TinyGSM.h>
 #include <WiFi.h>
+#include <TinyGsmClient.h>
 #include <PubSubClient.h>
 
 #include <memory>
@@ -35,12 +41,17 @@ aris::DataAcquisitionManager acquisition_manager;
 SensorPointerVector sensor_pointers;
 SensorInterfaceVector sensor_interfaces;
 
+const std::string apn = "";
+const std::string gprs_user = "";
+const std::string gprs_pass = "";
 const std::string ssid = WIFI_SSID;
 const std::string pass = WIFI_PASSWORD;
 const std::string mqtt_server_ip = MQTT_BROKER_IP;
 
+TinyGsm modem(SerialAT);
 WiFiClient wifi_client;
-PubSubClient mqtt_client(wifi_client);
+TinyGsmClient gsm_client(modem);
+PubSubClient mqtt_client(gsm_client);
 unsigned long publish_timestamp = 0ul;
 unsigned long publish_interval  = 100ul;
 
@@ -48,6 +59,26 @@ template<class Type>
 SensorPointer createSensorInstance(std::uint8_t pin) {
 	SensorPointer ptr = std::make_shared<Type>(pin);
 	return ptr;
+}
+
+void setupModem() {
+	Serial.println("Starting SerialAT ...");
+	TinyGsmAutoBaud(SerialAT, GSM_AUTOBAUD_MIN, GSM_AUTOBAUD_MAX);
+	delay(6000);
+	Serial.println("Initializing ...");
+	modem.restart();
+	Serial.println(modem.getModemInfo());
+	if (GSM_PIN && modem.getSimStatus() != 3) {
+		modem.simUnlock(GSM_PIN);
+	}
+	Serial.println("Waiting for connection ...");
+	while (!modem.isGprsConnected()) {
+		if (!modem.gprsConnect("3gprs", "3gprs", "3gprs")) {
+			Serial.println("Failed to connect");
+			delay(5000);
+		}
+	}
+	Serial.println("Connected!");
 }
 
 void setup_wifi() {
@@ -100,6 +131,7 @@ void setup() {
 		sensor_interfaces.push_back(sensor_pointers.at(i));
 	}
 
+	setupModem();
 	setup_wifi();
 	mqtt_client.setServer(mqtt_server_ip.c_str(), MQTT_BROKER_PORT);
 	mqtt_client.setCallback(callback);
