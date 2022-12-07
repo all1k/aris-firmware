@@ -27,8 +27,8 @@ void DataAcquisitionTask::run(void) {
 	}
 }
 
-void DataAcquisitionTask::halt(bool active) {
-	active_ = active;
+void DataAcquisitionTask::halt() {
+	active_ = false;
 }
 
 void DataAcquisitionManager::init(void) {

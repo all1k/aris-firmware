@@ -23,7 +23,7 @@ class DataAcquisitionTask {
 				bool start_active);
 
 		void run(void);
-		void halt(bool active);
+		void halt();
 };
 
 class DataAcquisitionManager {
