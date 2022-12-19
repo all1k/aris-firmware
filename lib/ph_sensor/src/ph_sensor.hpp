@@ -2,6 +2,7 @@
 #define _ARIS_PH_SENSOR_HPP_
 
 #include <Arduino.h>
+
 #include <sensor.hpp>
 
 namespace aris {
@@ -14,6 +15,6 @@ class AnalogPhSensor : public Sensor {
 		void calibrate(void) override;
 };
 
-}
+}  // namespace aris
 
 #endif

@@ -2,6 +2,7 @@
 #define _ARIS_TURBIDITY_SENSOR_HPP_
 
 #include <Arduino.h>
+
 #include <sensor.hpp>
 
 namespace aris {
@@ -17,6 +18,6 @@ class TurbiditySensor : public Sensor {
 		void calibrate(void) override;
 };
 
-}
+}  // namespace aris
 
 #endif

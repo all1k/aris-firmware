@@ -3,7 +3,7 @@
 namespace aris {
 
 std::uint16_t Sensor::adc_res_;
-float Sensor::vref_;
+float         Sensor::vref_;
 
 Sensor::Sensor(void) {
 	adc_res_ = 4096;
@@ -19,7 +19,8 @@ void Sensor::setVoltageReference(float ref) {
 }
 
 bool Sensor::attach(std::shared_ptr<Sensor> const& ptr) {
-	;;
+	;
+	;
 }
 
 void Sensor::readAdc(void) {
@@ -27,7 +28,8 @@ void Sensor::readAdc(void) {
 }
 
 void Sensor::readVoltage(void) {
-	float adc_ratio = static_cast<float>(adc_value_)/static_cast<float>(adc_res_);
+	float adc_ratio =
+		static_cast<float>(adc_value_) / static_cast<float>(adc_res_);
 	voltage_ = vref_ * adc_ratio;
 }
 
@@ -55,4 +57,4 @@ float Sensor::getData(void) const {
 	return data_;
 }
 
-}
+}  // namespace aris

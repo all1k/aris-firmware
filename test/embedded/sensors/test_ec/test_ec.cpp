@@ -2,15 +2,16 @@
 
 #include <Arduino.h>
 #include <unity.h>
-#include <sensor.hpp>
+
 #include <ec_sensor.hpp>
+#include <sensor.hpp>
+#include <string>
 #include <temperature_sensor.hpp>
 #include <vector>
-#include <string>
 
 #include "../../../test_utilities.h"
 
-aris::Sensor* sensor;
+aris::Sensor*                 sensor;
 std::shared_ptr<aris::Sensor> temp_sensor;
 
 void setUp(void) {
@@ -18,7 +19,9 @@ void setUp(void) {
 	if (!temp_sensor->init()) {
 		TEST_FAIL_MESSAGE("Failed to initialize object");
 	}
-	sensor = new aris::ConductivitySensor(CONDUCTIVITY_SENSOR_PIN, temp_sensor);
+	sensor = new aris::ConductivitySensor(
+		CONDUCTIVITY_SENSOR_PIN, temp_sensor
+	);
 	if (!sensor->init()) {
 		TEST_FAIL_MESSAGE("Failed to initialize object");
 	}
@@ -39,10 +42,10 @@ void test_voltage_reading(void) {
 }
 
 void test_data_reading(void) {
-	std::uint64_t timestamp = millis();
+	std::uint64_t      timestamp = millis();
 	std::vector<float> data_array;
 	TEST_MESSAGE("Aquiring data ... ");
-	while((millis() - timestamp) < TEST_READING_INTERVAL) {
+	while ((millis() - timestamp) < TEST_READING_INTERVAL) {
 		sensor->update();
 		float data = sensor->getData();
 		data_array.push_back(data);
@@ -60,5 +63,6 @@ void setup() {
 }
 
 void loop() {
-	;;
+	;
+	;
 }

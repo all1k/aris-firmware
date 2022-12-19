@@ -9,7 +9,7 @@ TurbiditySensor::TurbiditySensor(std::uint8_t pin) {
 
 bool TurbiditySensor::init(void) {
 	voltage_ = 0.0f;
-	data_ = 0.0f;
+	data_    = 0.0f;
 	pinMode(pin_, INPUT);
 	return true;
 }
@@ -17,23 +17,23 @@ bool TurbiditySensor::init(void) {
 bool TurbiditySensor::update(void) {
 	this->readAdc();
 	this->readVoltage();
-	float shifted_voltage = (voltage_ * turbidity_vref_) / vref_;
+	float shifted_voltage            = (voltage_ * turbidity_vref_) / vref_;
 	std::array<float, 3> coeficients = {-1120.4f, 5742.3f, -4352.9f};
-	data_ = 0.0f;
+	data_                            = 0.0f;
 	for (std::uint8_t i = 0; i < coeficients.size(); ++i) {
 		data_ += coeficients.at(i) * std::pow(shifted_voltage, i);
 	}
 	if (data_ < 0.0f) {
 		data_ = 0.50f;
 		return false;
-	}
-	else {
+	} else {
 		return true;
 	}
 }
 
 void TurbiditySensor::calibrate(void) {
-	;;
+	;
+	;
 }
 
-}
+}  // namespace aris

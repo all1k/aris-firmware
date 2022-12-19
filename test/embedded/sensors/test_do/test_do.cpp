@@ -2,15 +2,16 @@
 
 #include <Arduino.h>
 #include <unity.h>
-#include <sensor.hpp>
+
 #include <do_sensor.hpp>
+#include <sensor.hpp>
+#include <string>
 #include <temperature_sensor.hpp>
 #include <vector>
-#include <string>
 
 #include "../../../test_utilities.h"
 
-aris::Sensor* sensor;
+aris::Sensor*                 sensor;
 std::shared_ptr<aris::Sensor> temp_sensor;
 
 void setUp(void) {
@@ -39,10 +40,10 @@ void test_voltage_reading(void) {
 }
 
 void test_data_reading(void) {
-	std::uint64_t timestamp = millis();
+	std::uint64_t      timestamp = millis();
 	std::vector<float> data_array;
 	TEST_MESSAGE("Aquiring data ... ");
-	while((millis() - timestamp) < TEST_READING_INTERVAL) {
+	while ((millis() - timestamp) < TEST_READING_INTERVAL) {
 		if (!sensor->update()) {
 			TEST_FAIL_MESSAGE("Failed to update data");
 		}
@@ -62,5 +63,6 @@ void setup() {
 }
 
 void loop() {
-	;;
+	;
+	;
 }

@@ -22,7 +22,7 @@ bool TemperatureSensor::update(void) {
 	if (OneWire::crc8(addr, 7) != addr[7]) {
 		return false;
 	}
-	if ((addr[0]!=0x10) && (addr[0]!=0x28)) {
+	if ((addr[0] != 0x10) && (addr[0] != 0x28)) {
 		return false;
 	}
 
@@ -41,15 +41,16 @@ bool TemperatureSensor::update(void) {
 	wire_->reset_search();
 
 	std::uint8_t high_byte = data[1];
-	std::uint8_t low_byte = data[0];
-	float temp_read = ((high_byte << 8) | low_byte);
-	data_ = temp_read / 16;
+	std::uint8_t low_byte  = data[0];
+	float        temp_read = ((high_byte << 8) | low_byte);
+	data_                  = temp_read / 16;
 
 	return true;
 }
 
 void TemperatureSensor::calibrate(void) {
-	;;
+	;
+	;
 }
 
-}
+}  // namespace aris

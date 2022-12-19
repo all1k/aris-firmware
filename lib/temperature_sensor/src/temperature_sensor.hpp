@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <OneWire.h>
+
 #include <memory>
 #include <sensor.hpp>
 
@@ -18,13 +19,12 @@ class TemperatureSensor : public Sensor {
 		bool update(void) override;
 		void calibrate(void) override;
 
-		void readAdc(void) = delete;
-		void readVoltage(void) = delete;
+		void          readAdc(void)           = delete;
+		void          readVoltage(void)       = delete;
 		std::uint16_t getAdcValue(void) const = delete;
-		float getVoltage(void) const = delete;
+		float         getVoltage(void) const  = delete;
 };
 
-
-}
+}  // namespace aris
 
 #endif
