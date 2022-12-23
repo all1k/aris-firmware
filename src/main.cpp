@@ -3,24 +3,28 @@
 #define GSM_AUTOBAUD_MAX 115200
 #define GSM_PIN          ""
 
+#include <auth.h>
+#include <conf.h>
+
 #include <Arduino.h>
+#include <ArduinoJson.h>
 #include <PubSubClient.h>
 #include <TinyGSM.h>
 #include <TinyGsmClient.h>
 #include <WiFi.h>
-#include <auth.h>
-#include <conf.h>
+
+#include <memory>
+#include <string>
+#include <vector>
+#include <cmath>
 
 #include <data_acquisition.hpp>
 #include <do_sensor.hpp>
 #include <ec_sensor.hpp>
-#include <memory>
 #include <ph_sensor.hpp>
 #include <sensor.hpp>
-#include <string>
 #include <temperature_sensor.hpp>
 #include <turbidity_sensor.hpp>
-#include <vector>
 
 using SensorPointer         = std::shared_ptr<aris::Sensor>;
 using SensorInterface       = std::shared_ptr<aris::SensorInterface>;
@@ -37,6 +41,7 @@ aris::DataAcquisitionManager acquisition_manager;
 
 SensorPointerVector   sensor_pointers;
 SensorInterfaceVector sensor_interfaces;
+
 
 // const std::string apn = "";
 // const std::string gprs_user = "";
@@ -94,11 +99,23 @@ void callback(char* topic, byte* message, std::uint32_t length) {
 
 void reconnectToMqttBroker() {
 	while (!mqtt_client.connected()) {
-		if (!mqtt_client.connect("ESP32Client")) {
+		if (!mqtt_client.connect("device001", MQTT_USER, MQTT_PASS)) {
 			delay(5000);
 		}
 	}
 }
+
+JsonObject packSensorReading(SensorInterfaceVector& si) {
+	StaticJsonDocument<196> reading_buffer;
+	reading_buffer["temperature"] = si.at(0)->getData();
+	reading_buffer["turbidity"] = si.at(1)->getData();
+	reading_buffer["ph"] = si.at(2)->getData();
+	reading_buffer["conductivity"] = si.at(3)->getData();
+	reading_buffer["do"] = si.at(4)->getData();
+	JsonObject sensor_reading = reading_buffer.as<JsonObject>();
+	return sensor_reading;
+}
+
 
 void setup() {
 	Serial.begin(115200);
@@ -151,10 +168,14 @@ void setup() {
 	}
 
 	// setupModem();
+	Serial.println("Setting up wifi");
 	setup_wifi();
+	Serial.println("Setting up mqtt server");
 	mqtt_client.setServer(mqtt_server_ip.c_str(), MQTT_BROKER_PORT);
+	Serial.println("Setting up mqtt callback");
 	mqtt_client.setCallback(callback);
 }
+
 
 void loop() {
 	if (!mqtt_client.connected()) {
@@ -164,18 +185,20 @@ void loop() {
 	mqtt_client.loop();
 	acquisition_manager.asyncRun();
 
+	StaticJsonDocument<96> device_info_json;
+	JsonObject device_info = device_info_json.to<JsonObject>();
+	device_info["deviceid"] = 1;
+	device_info["location"] = "Makassar";
+
 	if ((millis() - publish_timestamp) > publish_interval) {
-		std::string log_msg;
-		for (auto const& it : sensor_interfaces) {
-			std::string topic_label = "esp32/";
-			std::string msg;
-			topic_label.append(it->getLabel());
-			msg.append(std::to_string(it->getData()));
-			mqtt_client.publish(topic_label.c_str(), msg.c_str());
-			log_msg.append(std::to_string(it->getData()));
-			log_msg.append("\t");
-		}
+		StaticJsonDocument<256> message_json;
+		JsonArray message_array = message_json.to<JsonArray>();
+		message_array.add(packSensorReading(sensor_interfaces));
+		message_array.add(device_info);
+		char message_buffer[256];
+		std::size_t buffer_size = serializeJson(message_json, message_buffer);
+		mqtt_client.publish("/sensors/water", message_buffer, buffer_size);
 		publish_timestamp = millis();
-		Serial.println(log_msg.c_str());
 	}
 }
+
